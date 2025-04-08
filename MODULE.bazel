@@ -6,9 +6,9 @@ http_archive(
     name = "org_chromium_sysroot_linux_x64",
     build_file_content = """
 filegroup(
-  name = "sysroot",
-  srcs = glob(["*/**"]),
-  visibility = ["//visibility:public"],
+ name = "sysroot",
+ srcs = glob(["*/**"]),
+ visibility = ["//visibility:public"],
 )
 """,
     sha256 = "84656a6df544ecef62169cfe3ab6e41bb4346a62d3ba2a045dc5a0a2ecea94a3",
@@ -18,9 +18,9 @@ filegroup(
 ## LLVM toolchain
 bazel_dep(name = "toolchains_llvm", version = "v1.1.2")
 git_override(
-  module_name = "toolchains_llvm",
-  commit = "1cd9e36e498983f061aa239e18043cfd26c7ac28",
-  remote = "https://github.com/bazel-contrib/toolchains_llvm",
+    module_name = "toolchains_llvm",
+    commit = "1cd9e36e498983f061aa239e18043cfd26c7ac28",
+    remote = "https://github.com/bazel-contrib/toolchains_llvm",
 )
 
 llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
@@ -39,7 +39,25 @@ use_repo(llvm, "llvm_toolchain")
 
 register_toolchains("@llvm_toolchain//:all")
 
-## Fuzzing rules
 bazel_dep(name = "rules_fuzzing", version = "0.5.2")
-non_module_dependencies = use_extension("@rules_fuzzing//fuzzing/private:extensions.bzl", "non_module_dependencies")
-use_repo(non_module_dependencies, "rules_fuzzing_oss_fuzz")
+git_override(
+    module_name = "rules_fuzzing",
+    remote = "https://github.com/CodeIntelligenceTesting/rules_fuzzing.git",
+    commit = "d17698278270c350ee82b05224a2fafb3da7f756",
+)
+
+bazel_dep(name = "cifuzz", dev_dependency = True)
+git_override(
+    module_name = "cifuzz",
+    remote = "https://github.com/CodeIntelligenceTesting/cifuzz-bazel.git",
+    commit = "90f42822b6da3405a99308757b344c0d57da0c36",
+)
+
+# Hedron's Compile Commands Extractor for Bazel
+# https://github.com/hedronvision/bazel-compile-commands-extractor
+bazel_dep(name = "hedron_compile_commands", dev_dependency = True)
+git_override(
+    module_name = "hedron_compile_commands",
+    remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
+    commit = "4f28899228fb3ad0126897876f147ca15026151e",
+)
