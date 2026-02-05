@@ -37,20 +37,18 @@ llvm.sysroot(
 
 use_repo(llvm, "llvm_toolchain")
 
-register_toolchains("@llvm_toolchain//:all")
-
 bazel_dep(name = "rules_fuzzing", version = "0.5.2")
 git_override(
     module_name = "rules_fuzzing",
     remote = "https://github.com/CodeIntelligenceTesting/rules_fuzzing.git",
-    commit = "d17698278270c350ee82b05224a2fafb3da7f756",
+    commit = "09ec7990822691ec185c3f49b5c34a158a82a74e",
 )
 
 bazel_dep(name = "cifuzz", dev_dependency = True)
 git_override(
     module_name = "cifuzz",
     remote = "https://github.com/CodeIntelligenceTesting/cifuzz-bazel.git",
-    commit = "90f42822b6da3405a99308757b344c0d57da0c36",
+    commit = "3433387cb48144cc670afe2e5073ba247f639581",
 )
 
 # Hedron's Compile Commands Extractor for Bazel
